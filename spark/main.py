@@ -41,8 +41,30 @@ if __name__ == "__main__":
                                )
     spark = app_config.initialize_spark_session(app_name)
     original_df = read_dataframe_from_s3(spark, s3_full_path)
+
+    # Tổng số lượng câu hỏi
+    total_questions = Query.get_total_questions(df)
+
+    # Số lượng câu hỏi đã có giải đáp và chưa có giải đáp
+    solved_questions = Query.get_solved_questions(df)
+    unsolved_questions = Query.get_unsolved_questions(df)
+
+    # Trung bình lượt views của tất cả câu hỏi
+    average_views = Query.get_average_views(df)
+
+    # Câu hỏi trong khoảng thời gian
+    questions_within_time_df = Query.get_questions_within_time(df, "2023-01-01", "2023-12-31")
+
+    # Tỉ lệ giải đáp câu hỏi trong khoảng thời gian
+    solved_questions_within_time_ratio = Query.get_solved_questions_within_time_ratio(df, "2023-01-01", "2023-12-31")
+
+    # Đếm số từ trong mỗi câu hỏi
     word_count_df = Query.get_counted_word_in_questions(original_df)
     word_count_df.cache()
+
+    # Số từ trung bình
+    averages_word_counts = word_count_df.agg(avg("word_count")).collect()[0][0]
+
     # Lưu vào elasticsearch
     df_save_to_es = (original_df, word_count_df)
     df_es_indices = ("original", "word_count")
