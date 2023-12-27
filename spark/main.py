@@ -43,20 +43,20 @@ if __name__ == "__main__":
     original_df = read_dataframe_from_s3(spark, s3_full_path)
 
     # Tổng số lượng câu hỏi
-    total_questions = Query.get_total_questions(df)
+    total_questions = Query.get_total_questions(original_df)
 
     # Số lượng câu hỏi đã có giải đáp và chưa có giải đáp
-    solved_questions = Query.get_solved_questions(df)
-    unsolved_questions = Query.get_unsolved_questions(df)
+    solved_questions = Query.get_solved_questions(original_df)
+    unsolved_questions = Query.get_unsolved_questions(original_df)
 
     # Trung bình lượt views của tất cả câu hỏi
-    average_views = Query.get_average_views(df)
+    average_views = Query.get_average_views(original_df)
 
     # Câu hỏi trong khoảng thời gian
-    questions_within_time_df = Query.get_questions_within_time(df, "2023-01-01", "2023-12-31")
+    questions_within_time_df = Query.get_questions_within_time(original_df, "2023-01-01", "2023-12-31")
 
     # Tỉ lệ giải đáp câu hỏi trong khoảng thời gian
-    solved_questions_within_time_ratio = Query.get_solved_questions_within_time_ratio(df, "2023-01-01", "2023-12-31")
+    solved_questions_within_time_ratio = Query.get_solved_questions_within_time_ratio(original_df, "2023-01-01", "2023-12-31")
 
     # Đếm số từ trong mỗi câu hỏi
     word_count_df = Query.get_counted_word_in_questions(original_df)
