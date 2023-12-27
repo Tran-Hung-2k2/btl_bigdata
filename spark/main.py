@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 import config as config
 from io_cluster import *
+from query import Query
 
 
 # Load environment variables from .env
@@ -39,11 +40,12 @@ if __name__ == "__main__":
                                s3_secret_key=aws_secret_key,
                                )
     spark = app_config.initialize_spark_session(app_name)
-    df_original = read_dataframe_from_s3(spark, s3_full_path)
-
+    original_df = read_dataframe_from_s3(spark, s3_full_path)
+    word_count_df = Query.get_counted_word_in_questions(original_df)
+    word_count_df.cache()
     # Lưu vào elasticsearch
-    df_save_to_es = (df_original)
-    df_es_indices = ("original")
+    df_save_to_es = (original_df, word_count_df)
+    df_es_indices = ("original", "word_count")
 
     save_dataframes_to_elasticsearch(df_save_to_es, df_save_to_es, spark.get_elasticsearch_conf())
 
