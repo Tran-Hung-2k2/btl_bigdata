@@ -4,6 +4,7 @@ from pyspark.sql.types import StructType, StructField, StringType
 from pyspark.sql.streaming import OutputMode
 from pyspark.streaming import StreamingQuery
 from elasticsearch import Elasticsearch
+import os
 
 # Import UDFs from preprocess.py
 import preprocess
@@ -20,11 +21,11 @@ s3_folder_name = "test"  # Thư mục trong bucket
 s3_output_path = "s3a://{}/{}".format(s3_bucket, s3_folder_name)
 
 # Elasticsearch settings
-es_host = "your_elasticsearch_host"  # Thay thế bằng địa chỉ Elasticsearch của bạn
+es_host = "34.87.36.15"
 es_port = 9200
-es_index = "your_elasticsearch_index"  # Thay thế bằng tên index của bạn
-es_username = "your_elasticsearch_username"  # Thay thế bằng tên người dùng của bạn
-es_password = "your_elasticsearch_password"  # Thay thế bằng mật khẩu của bạn
+es_index = "bigdata-nhom2"
+es_username = os.environ.get("ES_USERNAME")
+es_password = os.environ.get("ES_PASSWORD")
 
 # Initialize Spark Session with package configurations
 spark = (
