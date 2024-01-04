@@ -3,7 +3,7 @@ docker-compose up -d
 
 
 # Truy cập vào bash của container
-docker exec -it [container id] bash
+docker exec -it 1e17e3cb7cfef279b5fbbd36dfbfadcb4a5101b02609514c5d91672eada60aba bash
 
 # Thêm biến môi trường xác thực AWS bắt buộc phải set biến môi trường trước khi submit job
 (window khi chạy local) 

@@ -26,6 +26,14 @@ class Spider(scrapy.Spider):
         self.kafka_topic = self.kafka_client.topics[kafka_topic_name]
         self.producer = self.kafka_topic.get_producer()
 
+        # Cấu hình buffer và timeout cho Kafka producer
+        # self.producer = self.kafka_topic.get_producer(
+        #     linger_ms=10,  # Thời gian chờ tối đa (ms) trước khi gửi một batch
+        #     batch_size=16384,  # Kích thước tối đa của mỗi batch (byte)
+        #     delivery_reports=True,  # Bật chế độ xác nhận từ Kafka server
+        #     request_timeout_ms=5000,  # Thời gian chờ tối đa cho mỗi yêu cầu gửi tin nhắn (ms)
+        # )
+
     def closed(self, reason):
         self.producer.stop()
 
