@@ -7,6 +7,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 22181:2181
+    networks:
+      - bigdata
 
   kafka-1:
     image: confluentinc/cp-kafka:latest
@@ -14,6 +16,8 @@ services:
       - zookeeper-1
     ports:
       - 29092:29092
+    networks:
+      - bigdata
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181
@@ -28,6 +32,8 @@ services:
       - zookeeper-1
     ports:
       - 39092:39092
+    networks:
+      - bigdata
     environment:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181
@@ -51,3 +57,7 @@ services:
       echo -e 'Successfully created the following topics:'
       kafka-topics --bootstrap-server kafka-1:9092 --list
       "
+
+networks:
+  bigdata:
+    external: true

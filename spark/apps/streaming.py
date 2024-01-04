@@ -8,7 +8,8 @@ import preprocess
 
 # Kafka settings
 kafka_topic_name = "stack_exchange"
-kafka_bootstrap_servers = "localhost:39092"
+# kafka_bootstrap_servers = "localhost:39092"
+kafka_bootstrap_servers = "kafka-1:9092"
 
 # AWS S3 settings
 aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID")
@@ -65,21 +66,12 @@ df_json = (
 )
 
 # Write data to Amazon S3
-# query = (
-#     df_json.repartition(1)
-#     .writeStream.outputMode("append")
-#     .format("json")
-#     .option("checkpointLocation", "{}/checkpoint".format(s3_output_path))
-#     .option("path", "{}/data".format(s3_output_path))
-#     .start()
-# )
-
-# Write data to local JSON file
 query = (
-    df_json.writeStream.outputMode("append")
+    df_json.repartition(1)
+    .writeStream.outputMode("append")
     .format("json")
-    .option("checkpointLocation", "./output/checkpoint")
-    .option("path", "./output/data")
+    .option("checkpointLocation", "{}/checkpoint".format(s3_output_path))
+    .option("path", "{}/data".format(s3_output_path))
     .start()
 )
 

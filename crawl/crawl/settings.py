@@ -20,14 +20,18 @@ RETRY_HTTP_CODES = [429]
     #    "crawl.middlewares.CrawlDownloaderMiddleware": 543,
 # }
 
-
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.5
 # The download delay setting will honor only one of:
+DOWNLOAD_DELAY = 0.5
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
+
+# Override the default request headers:
+DEFAULT_REQUEST_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0",
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "crawl (+http://www.yourdomain.com)"
@@ -43,13 +47,6 @@ ROBOTSTXT_OBEY = True
 
 # Disable Telnet Console (enabled by default)
 # TELNETCONSOLE_ENABLED = False
-
-# Override the default request headers:
-DEFAULT_REQUEST_HEADERS = {
-    #    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    #    "Accept-Language": "en",
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0",
-}
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
@@ -94,3 +91,10 @@ DEFAULT_REQUEST_HEADERS = {
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+# Proxy Rotating
+# DOWNLOADER_MIDDLEWARES = {
+#     'scrapy_rotating_proxies.middlewares.RotatingProxyMiddleware': 350,
+#     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 400,
+# }
+# ROTATING_PROXY_LIST_PATH = 'proxy_list.txt'
