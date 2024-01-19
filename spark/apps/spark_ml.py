@@ -33,18 +33,8 @@ schema = StructType(
 )
 df_all = spark.read.json(f"s3a://{bucket_name}/{s3_input_file}", schema=schema)
 
-# Tiếp tục xử lý dữ liệu như trước
-df_all_processed = (
-    df_all.withColumn("content", regexp_replace("content", "<.*?>", ""))
-    .withColumn("content", regexp_replace("content", "\\s+", " "))
-    .withColumn("content", trim(col("content")))
-    .withColumn("views", preprocess.convert_to_numeric("views"))
-    .withColumn("num_answer", preprocess.convert_to_numeric("num_answer"))
-    .withColumn("votes", preprocess.convert_to_numeric("votes"))
-)
-
 # Loại bỏ các bản ghi chứa null hoặc có độ dài của mảng "category" là 0
-df_all_processed = df_all_processed.na.drop().filter(size("category") > 0)
+df_all_processed = df_all.na.drop().filter(size("category") > 0)
 
 # Chuyển đổi cột category từ ArrayType(StringType) thành StringType
 first_category_udf = udf(lambda x: x[0] if x else None, StringType())

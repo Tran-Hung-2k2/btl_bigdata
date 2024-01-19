@@ -24,7 +24,7 @@ RETRY_HTTP_CODES = [429]
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 # The download delay setting will honor only one of:
-DOWNLOAD_DELAY = 0.5
+DOWNLOAD_DELAY = 0.8
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
 
